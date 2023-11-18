@@ -4,11 +4,11 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Replace 'YOUR_API_KEY' with your actual API key
-API_KEY = 'AIzaSyAIauebrmC4h8cXkY8a2UHsKHmhufHeFOs'
+API_KEY = 'AIzaSyCsBnmdjr2SDnjuL5ZTIp-6UbOAQ4aNt3A'
 
 # Function to get video information by channel ID
 def get_channel_videos(channel_id):
-    url = f'https://www.googleapis.com/youtube/v3/search?key={API_KEY}&part=snippet&channelId={channel_id}&order=viewCount&maxResults=50&type=video'
+    url = f'https://www.googleapis.com/youtube/v3/search?key={API_KEY}&part=snippet&channelId={channel_id}&order=viewCount&maxResults=10&type=video'
     response = requests.get(url)
     data = json.loads(response.text)
     return data['items'] if 'items' in data else None
@@ -43,7 +43,7 @@ def append_video_data(csv_file, video_data):
         print("Video information saved successfully.")
 
 # Đọc dữ liệu từ file CSV vào DataFrame
-df = pd.read_csv('DataYoutube.csv')
+df = pd.read_csv('DataYoutubeTrending.csv')
 keywords = [
     'health', 'fitness', 'wellness', 'beauty', 'skincare', 'nutrition', 'exercise',
     'education', 'learning', 'personal development', 'self-improvement', 'skills development', 'knowledge',
@@ -88,6 +88,7 @@ csv_file = 'DataVideo.csv'
 for channel_id in channel_ids:
     # Get videos for the channel
     videos = get_channel_videos(channel_id)
+    print(videos)
     if videos:
         # Create a list to stre video information
         video_data = []

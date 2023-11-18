@@ -15,7 +15,7 @@ class YouTubeStatsApp(QWidget):
 
     def init_ui(self):
     # Read the CSV file into a DataFrame
-        df = pd.read_csv('DataYoutube.csv')
+        df = pd.read_csv('DataYoutubeTrending.csv')
 
     # Group by 'channelTitle' and calculate the sum of views, likes, and comments for each channel
         channel_stats = df.groupby('channelTitle').agg({
