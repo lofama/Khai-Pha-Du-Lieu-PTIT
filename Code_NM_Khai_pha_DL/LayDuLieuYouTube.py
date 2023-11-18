@@ -88,7 +88,7 @@ csv_file = 'DataVideo.csv'
 for channel_id in channel_ids:
     # Get videos for the channel
     videos = get_channel_videos(channel_id)
-    print(videos)
+    # print(videos)
     if videos:
         # Create a list to stre video information
         video_data = []

@@ -25,10 +25,10 @@ text_transformer = Pipeline(steps=[
 ])
 
 # Bước 3: Xử lý dữ liệu về thời lượng
-data['duration'] = data['duration'].apply(lambda x: pd.Timedelta(x).seconds)
+data['dimension'] = data['dimension'].apply(lambda x: pd.Timedelta(x).seconds)
 
 # Bước 4: Chuẩn hóa dữ liệu số
-numeric_features = ['duration', 'subscriberCount']
+numeric_features = ['dimension', 'subscriberCount']
 numeric_transformer = Pipeline(steps=[
     ('scaler', StandardScaler())
 ])
