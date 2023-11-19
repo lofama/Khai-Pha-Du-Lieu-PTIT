@@ -4,13 +4,15 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Replace 'YOUR_API_KEY' with your actual API key
-API_KEY = 'AIzaSyCsBnmdjr2SDnjuL5ZTIp-6UbOAQ4aNt3A'
+API_KEY = 'AIzaSyBy-GtuICZqcpj3vnUInRXA17zVAjQ0m_E'
+#API dự phòng AIzaSyDwINuwggNulYfXfqmBOQrPmjHKvzgKwAA
 
 # Function to get video information by channel ID
 def get_channel_videos(channel_id):
     url = f'https://www.googleapis.com/youtube/v3/search?key={API_KEY}&part=snippet&channelId={channel_id}&order=viewCount&maxResults=10&type=video'
     response = requests.get(url)
     data = json.loads(response.text)
+    print(data)
     return data['items'] if 'items' in data else None
 
 # Function to get detailed video statistics by video ID
@@ -80,8 +82,9 @@ def get_random_channel_ids(api_key, queries, num_channels_per_query=5):
 # random_channel_ids = get_random_channel_ids(API_KEY, keywords, num_channels_per_keyword)
 
 # Lấy danh sách các giá trị duy nhất từ cột "ChannelId"
-channel_ids = df['channelId'].unique()
-# channel_ids = random_channel_ids.unique()
+# channel_ids = df['channelId'].unique()
+channel_ids = {'UCvx0yETx4Mg0Si_YifV3-2g', 'UCDt2sv8-Uw3ziTy2G7Bjktw', 'UCA_23dkEYToAc37hjSsCnXA', 'UCvjOPaJZjDkgSkXsfAchSwQ', 'UC3IZKseVpdzPSBaWxBxundA', 'UC7XYZvX1jEKdLsq_bZs2gjQ', 'UCLa90xY6l4sEY1sC3tlwGGA', 'UCZRWf-SUOu4c8FSq2ezH-Zw', 'UCKkYlIkbgikL76LrddIM98w', 'UChGncdgzOKmp5XQTnQa2h4w', 'UC89u8T2JjgjAo1G37dXLLWw', 'UC0IpGYsi1KVorZ7QVCHfdag', 'UCAzZdEu3MjJ7kdJD-u2083Q', 'UC475tLo6Mop8IYXgvdnJy8w', 'UCxE_qxE-rBRn2mePLwJulIw', 'UCfDrdfgDyeF_h3Y8klV0e0w', 'UCAhfSPCb_HzvHSI54YCZ6GA', 'UC6UrwtJjV4xPxxZo-ZEpQYA', 'UCgeQezjQQi43YaBFWD5vUyQ', 'UC8ahGDcou5XFUEVf4ID69vQ', 'UCJSagsGX4aEwIejLp_9NkbA', 'UCYd8eNMptkrGQs5F1JFHgMA', 'UCD7jwWWYc8OsLBi_q64DTnA', 'UCbTAemQCm6Rud3HD0k30Qow', 'UC2k3OPgIJWjp63Y2hrxdHHA', 'UCPhHBEtG6dVZ5fJKoNArcJw', 'UCZxUVZjMMx_xIjRuHyi4tUg', 'UC5fsYtWjjzy8D13cn4UKVMQ', 'UC2BEmluQX1foBrR3oLMiB_g', 'UCsluIbpgt14y6KUcwqCxXbg', 'UCzgN9ZHWGlyk23LysJskf9Q', 'UCjoAIOyTWjGjP_Q-qw3jkhQ', 'UCTAacyv5T4cSus1W4D6eBfA', 'UCiWyQp2HgKX2-WQUq11V8FA'}
+
 # channel_ids = ['UC-lHJZR3Gqxm24_Vd_AJ5Yw', 'UC_x5XG1OV2P6uZZ5FSM9Ttw']  # Replace with your channel IDs
 csv_file = 'DataVideo.csv'
 
@@ -114,7 +117,7 @@ for channel_id in channel_ids:
             tags_url = f'https://www.googleapis.com/youtube/v3/videos?key={API_KEY}&part=snippet,contentDetails&id={video_id}'
             tags_response = requests.get(tags_url)
             tags_data = json.loads(tags_response.text)
-            
+            tags=''
             if 'items' in tags_data and 'tags' in tags_data['items'][0]['snippet']:
                 tags = tags_data['items'][0]['snippet']['tags']
                 dimension = tags_data['items'][0]['contentDetails']['duration']
@@ -132,6 +135,7 @@ for channel_id in channel_ids:
                 'likeCount': like_count,
                 'commentCount': comment_count
             })
+            
         # Append video data to the CSV file
         append_video_data(csv_file, video_data)
     else:

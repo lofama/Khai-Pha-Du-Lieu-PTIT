@@ -15,7 +15,7 @@ print(merged_data.columns)
 avg_view_count = youtube_data['viewCount'].mean()
 avg_like_count = youtube_data['likeCount'].mean()
 avg_comment_count = youtube_data['commentCount'].mean()
-
+print(avg_view_count,avg_like_count,avg_comment_count)
 # Chọn các cột quan trọng từ merged_data
 final_data = merged_data[['id', 'publishedAt', 'dimension', 'channelId', 'title', 'tags', 'subscriberCount', 'viewCount', 'likeCount', 'commentCount']]
 # Đổi tên cột cho dễ hiểu
