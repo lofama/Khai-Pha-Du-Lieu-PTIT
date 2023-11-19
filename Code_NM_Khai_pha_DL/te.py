@@ -1,11 +1,15 @@
 import pandas as pd
-import csv
-import json
-# Đọc file CSV
-df = pd.read_csv('DataVideo.csv')
 
-# Lấy dữ liệu từ cột "channelTitle"
-channel_titles = df['channelTitle'].unique()
+# Đọc dữ liệu từ file CSV
+data = pd.read_csv('DataYoutubeTrending.csv')
+data1 = pd.read_csv('TrainingDataWithTrend.csv')
 
-# Hiển thị danh sách các giá trị
-print(channel_titles)
+# Chuyển cột tags và tags1 thành chuỗi văn bản (nếu chưa phải)
+data['tags'] = data['tags'].astype(str)
+data1['tags1'] = data1['tags'].astype(str)
+
+# Tính số từ trong tags1 có trong tags cho mỗi mẫu
+data1['common_words_count'] = data1.apply(lambda row: sum(word in row['tags'] for word in row['tags1'].split()), axis=1)
+
+# In ra kết quả
+print(data1[['tags1', 'common_words_count']])
