@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
-
+import joblib
 # Đọc dữ liệu từ file CSV
 data = pd.read_csv('TrainingDataWithTrend.csv')
 
@@ -45,10 +45,7 @@ preprocessor = ColumnTransformer(
 selected_features = ['hour', 'day_of_week', 'month', 'dimension', 'subscriberCount', 'title_count', 'tags_count']
 X = data[selected_features]
 y = data['trend']
-# # Bước 6.1: Xử lý dữ liệu văn bản
-# X_text = text_transformer.fit_transform(data[['title', 'tags']])
-# X_text_df = pd.DataFrame(X_text.toarray(), columns=text_transformer.named_steps['tfidf'].get_feature_names_out())
-# X = pd.concat([X, X_text_df], axis=1)
+
 # Bước 7: Phân chia dữ liệu
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -64,24 +61,26 @@ models = {
 results = {}
 
 for model_name, model in models.items():
-    # Huấn luyện mô hình
-    model.fit(X_train, y_train)
-
+     # Huấn luyện mô hình
+    for i in range(10):
+        model.fit(X_train, y_train)
     # Đánh giá mô hình
     y_pred = model.predict(X_test)
-
-    # Độ đo đánh giá
     accuracy = accuracy_score(y_test, y_pred)
     classification_report_result = classification_report(y_test, y_pred)
 
-    # Lưu kết quả vào từ điển
+    # Lưu kết quả vào dictionary
     results[model_name] = {
         'model': model,
         'accuracy': accuracy,
         'classification_report': classification_report_result
     }
 
-# In ra kết quả
+    # Lưu mô hình vào file
+    model_filename = f'DataTrained/{model_name}_model.pkl'
+    joblib.dump(model, model_filename)
+
+# In kết quả
 for model_name, result in results.items():
     print(f'{model_name} Results:')
     print(f'Accuracy: {result["accuracy"]}')
