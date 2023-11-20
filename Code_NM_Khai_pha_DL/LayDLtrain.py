@@ -21,7 +21,7 @@ video_data = video_data[['id', 'publishedAt', 'channelId', 'title', 'dimension',
 
 # Gộp dữ liệu từ video_data và channel_data bằng cột 'channelId'
 merged_data = pd.merge(video_data[['id', 'publishedAt', 'dimension', 'channelId', 'title', 'tags', 'viewCount', 'likeCount', 'commentCount']],
-                      channel_data[['channelId', 'subscriberCount']],
+                      channel_data[['channelId', 'subscriberCount','viewChannelCount']],
                       on='channelId',
                       how='left')
 print(merged_data.columns)
@@ -31,9 +31,9 @@ avg_like_count = youtube_data['likeCount'].mean()
 avg_comment_count = youtube_data['commentCount'].mean()
 print(avg_view_count,avg_like_count,avg_comment_count)
 # Chọn các cột quan trọng từ merged_data
-final_data = merged_data[['id', 'publishedAt', 'dimension', 'channelId', 'title', 'tags', 'subscriberCount', 'viewCount', 'likeCount', 'commentCount']]
+final_data = merged_data[['id', 'publishedAt', 'dimension', 'channelId', 'title', 'tags', 'subscriberCount','viewChannelCount', 'viewCount', 'likeCount', 'commentCount']]
 # Đổi tên cột cho dễ hiểu
-final_data.columns = ['id', 'publishedAt', 'dimension', 'channelId', 'title', 'tags', 'subscriberCount', 'viewCount', 'likeCount', 'commentCount']
+final_data.columns = ['id', 'publishedAt', 'dimension', 'channelId', 'title', 'tags', 'subscriberCount','viewChannelCount', 'viewCount', 'likeCount', 'commentCount']
 
 # Xử lý giá trị null bằng cách điền giá trị mặc định (ví dụ: 'Unknown' cho các cột chuỗi)
 final_data.loc[:, 'publishedAt'] = final_data['publishedAt'].fillna('Unknown')
@@ -42,7 +42,7 @@ final_data.loc[:, 'channelId'] = final_data['channelId'].fillna('Unknown')
 final_data.loc[:, 'title'] = final_data['title'].fillna('Unknown')
 final_data.loc[:, 'tags'] = final_data['tags'].fillna('Unknown')
 final_data.loc[:, 'subscriberCount'] = final_data['subscriberCount'].fillna(0)
-
+final_data.loc[:, 'viewChannelCount'] = final_data['viewChannelCount'].fillna(0)
 # Lấy danh sách các giá trị duy nhất từ cột "id" của youtube_data
 trending_ids = youtube_data['id'].unique()
 final_data = final_data.copy()  # Create a copy of the DataFrame
@@ -56,4 +56,3 @@ final_data.loc[:, 'trend'] = ((final_data['viewCount'] > avg_view_count) |
                                final_data['id'].astype(str).isin(trending_ids)).astype(int)
 # Lưu dữ liệu vào file CSV mới
 final_data.to_csv('TrainingDataWithTrend.csv', index=False)
-

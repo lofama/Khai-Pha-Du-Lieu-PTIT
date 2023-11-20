@@ -4,7 +4,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Replace 'YOUR_API_KEY' with your actual API key
-API_KEY = 'AIzaSyBy-GtuICZqcpj3vnUInRXA17zVAjQ0m_E'
+API_KEY = 'AIzaSyAIauebrmC4h8cXkY8a2UHsKHmhufHeFOs'
 #API dự phòng AIzaSyDwINuwggNulYfXfqmBOQrPmjHKvzgKwAA
 
 # Function to get video information by channel ID
@@ -83,8 +83,7 @@ def get_random_channel_ids(api_key, queries, num_channels_per_query=5):
 
 # Lấy danh sách các giá trị duy nhất từ cột "ChannelId"
 # channel_ids = df['channelId'].unique()
-channel_ids = {'UCvx0yETx4Mg0Si_YifV3-2g', 'UCDt2sv8-Uw3ziTy2G7Bjktw', 'UCA_23dkEYToAc37hjSsCnXA', 'UCvjOPaJZjDkgSkXsfAchSwQ', 'UC3IZKseVpdzPSBaWxBxundA', 'UC7XYZvX1jEKdLsq_bZs2gjQ', 'UCLa90xY6l4sEY1sC3tlwGGA', 'UCZRWf-SUOu4c8FSq2ezH-Zw', 'UCKkYlIkbgikL76LrddIM98w', 'UChGncdgzOKmp5XQTnQa2h4w', 'UC89u8T2JjgjAo1G37dXLLWw', 'UC0IpGYsi1KVorZ7QVCHfdag', 'UCAzZdEu3MjJ7kdJD-u2083Q', 'UC475tLo6Mop8IYXgvdnJy8w', 'UCxE_qxE-rBRn2mePLwJulIw', 'UCfDrdfgDyeF_h3Y8klV0e0w', 'UCAhfSPCb_HzvHSI54YCZ6GA', 'UC6UrwtJjV4xPxxZo-ZEpQYA', 'UCgeQezjQQi43YaBFWD5vUyQ', 'UC8ahGDcou5XFUEVf4ID69vQ', 'UCJSagsGX4aEwIejLp_9NkbA', 'UCYd8eNMptkrGQs5F1JFHgMA', 'UCD7jwWWYc8OsLBi_q64DTnA', 'UCbTAemQCm6Rud3HD0k30Qow', 'UC2k3OPgIJWjp63Y2hrxdHHA', 'UCPhHBEtG6dVZ5fJKoNArcJw', 'UCZxUVZjMMx_xIjRuHyi4tUg', 'UC5fsYtWjjzy8D13cn4UKVMQ', 'UC2BEmluQX1foBrR3oLMiB_g', 'UCsluIbpgt14y6KUcwqCxXbg', 'UCzgN9ZHWGlyk23LysJskf9Q', 'UCjoAIOyTWjGjP_Q-qw3jkhQ', 'UCTAacyv5T4cSus1W4D6eBfA', 'UCiWyQp2HgKX2-WQUq11V8FA'}
-
+channel_ids = ['UCTQpv70KPMZ-YWGuWBC-TqA', 'UCNuVpvoLP-9HvbBUZP7cYnw', 'UCli5b7mqWIceCewcq5IISJw', 'UCSr0CXq1FFhLPVrdXEfCXVA', 'UCja7QUMRG9AD8X2F_vXFb9A', 'UCnnGd3ggGzMCNmua4hXfEPg', 'UCQi8Bzn59zKNgBYxx03KgCA', 'UCAhCvfihfURg47Ai4NCIr3A', 'UCIH6joQytsAw1wU45MkV3qg', 'UC4JqJRD2d6D0X3TqddN9trw', 'UCpzPXnGXtb0UKpxx3KnUBnw', 'UCaehsa75y02rDJW1oPom-Xw', 'UCtHuUTWVRHUXVjmRrvS8WYg', 'UCVPhtqHn2wWUPJtG6nFZcBA', 'UCcp_EgJoLY-Umu9KZWpYdUg', 'UCam4pU1NFraGs5Ng_SS9h9Q', 'UCh4i8ewsYEimQHP55zWIHxg', 'UCB7N6KLnVUunJNI-SwIC-pw', 'UCa0K9QK-Aq6YUgKwxoS6-Gg', 'UC7gCCAhhQvD3MBpKpI_4g6w', 'UCvJEE0N6GShr1wEwwmFlbJg', 'UCgVflJm7_oeEiLCq0j6WV3g', 'UCBI_nGga40o-67Dl-6Fvs5A', 'UCiisz2_BLe9QrESOkMPnWKA', 'UCie09bMB6ITYmpU3z6vv2tw', 'UCEKdgyB-5HgDSWzM6yipeLA', 'UCEj22q9t0-hqs1lePKeZ9FA', 'UCQ0v32jT6Uf3FQ5TI4tudMg', 'UCKK4_XnSe9V8MTJ8QDVpeLA', 'UCb5KPIjofcPh6dDGTblvhQQ', 'UCv7VutirxDn3RWIJXI68n_A', 'UCv_lC6vpdZ0V5ndONQLzc6A', 'UCTkyJbRhal4voLZxmdRSssQ', 'UCLxAS02eWvfZK4icRNzWD_g', 'UCIiFsAO2Gh_vu8OStpjl16A', 'UCTVOgJQLz1lKDbzJqMWbbsg', 'UCjzHeG1KWoonmf9d5KBvSiw']
 # channel_ids = ['UC-lHJZR3Gqxm24_Vd_AJ5Yw', 'UC_x5XG1OV2P6uZZ5FSM9Ttw']  # Replace with your channel IDs
 csv_file = 'DataVideo.csv'
 
