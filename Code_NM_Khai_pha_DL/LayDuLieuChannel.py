@@ -53,24 +53,24 @@ queries = ['fitness', 'health', 'education', 'music', 'travel', 'science', 'art'
 num_channels_per_keyword = 10
 
 # Hàm để lấy danh sách các channelId ngẫu nhiên
-def get_random_channel_ids(api_key, queries, num_channels_per_query=10):
+def get_random_channel_ids(api_key, queries, num_channels_per_query=15):
     all_channel_ids = []
 
     for query in queries:
         url = f'https://www.googleapis.com/youtube/v3/search?key={api_key}&part=id&type=channel&q={query}&maxResults={num_channels_per_query}&regionCode=VN'
         response = requests.get(url)
         data = json.loads(response.text)
-
+        print(data)
         # Lấy `channelId` từ kết quả tìm kiếm
         if 'items' in data:
             channel_ids = [item['id']['channelId'] for item in data['items']]
             all_channel_ids.extend(channel_ids)
-
+    print(all_channel_ids)
     return all_channel_ids
 # Lấy danh sách duy nhất các channelId từ selected_videos
 # unique_channel_ids =  pd.read_csv('DataYoutubeTrending.csv')['channelId'].unique()
 # unique_channel_ids={'UCvx0yETx4Mg0Si_YifV3-2g', 'UCDt2sv8-Uw3ziTy2G7Bjktw', 'UCA_23dkEYToAc37hjSsCnXA', 'UCvjOPaJZjDkgSkXsfAchSwQ', 'UC3IZKseVpdzPSBaWxBxundA', 'UC7XYZvX1jEKdLsq_bZs2gjQ', 'UCLa90xY6l4sEY1sC3tlwGGA', 'UCZRWf-SUOu4c8FSq2ezH-Zw', 'UCKkYlIkbgikL76LrddIM98w', 'UChGncdgzOKmp5XQTnQa2h4w', 'UC89u8T2JjgjAo1G37dXLLWw', 'UC0IpGYsi1KVorZ7QVCHfdag', 'UCAzZdEu3MjJ7kdJD-u2083Q', 'UC475tLo6Mop8IYXgvdnJy8w', 'UCxE_qxE-rBRn2mePLwJulIw', 'UCfDrdfgDyeF_h3Y8klV0e0w', 'UCAhfSPCb_HzvHSI54YCZ6GA', 'UC6UrwtJjV4xPxxZo-ZEpQYA', 'UCgeQezjQQi43YaBFWD5vUyQ', 'UC8ahGDcou5XFUEVf4ID69vQ', 'UCJSagsGX4aEwIejLp_9NkbA', 'UCYd8eNMptkrGQs5F1JFHgMA', 'UCD7jwWWYc8OsLBi_q64DTnA', 'UCbTAemQCm6Rud3HD0k30Qow', 'UC2k3OPgIJWjp63Y2hrxdHHA', 'UCPhHBEtG6dVZ5fJKoNArcJw', 'UCZxUVZjMMx_xIjRuHyi4tUg', 'UC5fsYtWjjzy8D13cn4UKVMQ', 'UC2BEmluQX1foBrR3oLMiB_g', 'UCsluIbpgt14y6KUcwqCxXbg', 'UCzgN9ZHWGlyk23LysJskf9Q', 'UCjoAIOyTWjGjP_Q-qw3jkhQ', 'UCTAacyv5T4cSus1W4D6eBfA', 'UCiWyQp2HgKX2-WQUq11V8FA'}
-unique_channel_ids = get_random_channel_ids(API_KEY,queries,num_channels_per_query=5)
+unique_channel_ids = get_random_channel_ids(API_KEY,queries,num_channels_per_query=15)
 newChannelId=[]
 # Tiếp tục xử lý như trước để lấy thông tin kênh và lưu vào CSV
 for channel_id in unique_channel_ids:
@@ -78,7 +78,7 @@ for channel_id in unique_channel_ids:
     if not channel_id_exists(csv_file, channel_id):
         # Get channel information
         channel_info = get_channel_info(channel_id)
-
+        newChannelId.append(channel_id)
         # Process channel information as needed
         if channel_info:
             snippet = channel_info.get('snippet', {})

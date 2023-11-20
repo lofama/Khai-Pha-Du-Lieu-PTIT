@@ -4,20 +4,21 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
-os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = 'D:/KPDL/envs/env_name/Library/plugins/platforms'
+import importlib
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = 'D:/KPDL/envs/env_name/Library/plugins/'
 
 
 class YouTubeStatsApp(QWidget):
     def __init__(self):
         super().__init__()
-
+        
         self.init_ui()
 
     def init_ui(self):
-    # Read the CSV file into a DataFrame
+        # Read the CSV file into a DataFrame
         df = pd.read_csv('DataYoutubeTrending.csv')
 
-    # Group by 'channelTitle' and calculate the sum of views, likes, and comments for each channel
+        # Group by 'channelTitle' and calculate the sum of views, likes, and comments for each channel
         channel_stats = df.groupby('channelTitle').agg({
             'viewCount': 'sum',
             'likeCount': 'sum',
@@ -44,10 +45,38 @@ class YouTubeStatsApp(QWidget):
         plt.ylabel('Count')
 
         # Embed the Matplotlib plot into the PyQt5 application
-        canvas = FigureCanvas(plt.gcf())
-        canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.canvas = FigureCanvas(plt.gcf())
+        self.canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        
+        # Thêm ba nút để hiển thị biểu đồ cho viewCount, likeCount, và commentCount
+        self.view_count_button = QPushButton('View Count Chart', self)
+        self.like_count_button = QPushButton('Like Count Chart', self)
+        self.comment_count_button = QPushButton('Comment Count Chart', self)
+        self.show_code_button = QPushButton('Dự đoán', self)
+
+        # Kết nối nút với hàm tương ứng
+        self.view_count_button.clicked.connect(lambda: self.plot_chart('viewCount', 'View Count', self.view_count_button))
+        self.like_count_button.clicked.connect(lambda: self.plot_chart('likeCount', 'Like Count', self.like_count_button))
+        self.comment_count_button.clicked.connect(lambda: self.plot_chart('commentCount', 'Comment Count', self.comment_count_button))
+        self.show_code_button.clicked.connect(self.show_code)
+
+
+        # Thiết lập màu cho từng nút
+        self.view_count_button.setStyleSheet("background-color: #3498db; color: white;")
+        self.like_count_button.setStyleSheet("background-color: #e74c3c; color: white;")
+        self.comment_count_button.setStyleSheet("background-color: #2ecc71; color: white;")
+        self.comment_count_button.setStyleSheet("background-color: #2ecc55; color: white;")
+        
+        
         layout = QVBoxLayout()
-        layout.addWidget(canvas)
+        layout.addWidget(self.view_count_button)
+        layout.addWidget(self.like_count_button)
+        layout.addWidget(self.comment_count_button)
+        layout.addWidget(self.show_code_button)
+        layout.addWidget(self.canvas)
+        
+        # layout = QVBoxLayout()
+        # layout.addWidget(canvas)
 
         self.setLayout(layout)
 
@@ -75,6 +104,22 @@ class YouTubeStatsApp(QWidget):
         plt.ylabel('Count')
         self.canvas.draw()
 
+        
+
+    def show_code(self):
+        # Lấy đường dẫn hiện tại của tệp form.py
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(current_directory, 'check.py')
+
+        # Tải module form.py và tạo một thể hiện của lớp BeautifulForm
+        try:
+            module = importlib.import_module('check')  # Tên module (không bao gồm .py)
+            form_class = getattr(module, 'BeautifulForm')
+            form_instance = form_class()
+            form_instance.show()
+        except Exception as e:
+            print(f"Không thể tải check.py: {e}")
+        
     def style_button(self, button):
         button.setStyleSheet(
             "QPushButton {"
