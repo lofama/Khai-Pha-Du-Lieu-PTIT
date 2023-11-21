@@ -1,54 +1,28 @@
-import pandas as pd
 import joblib
+import pandas as pd
+# Load mô hình đã lưu
+model_name = 'Random Forest'  # Chọn mô hình bạn muốn sử dụng ('Logistic Regression', 'Random Forest', hoặc 'Support Vector Machine')
+loaded_model_train = joblib.load(f'DataTrainedForTrend/{model_name}_model.pkl')
+loaded_model_view = joblib.load(f'DataTrainedForView/{model_name}_model.pkl')
+# Chuẩn bị dữ liệu nhập vào cho dự đoán
+input_data = {
+    'hour': 10,  # Thay đổi các giá trị tương ứng với đối tượng bạn muốn dự đoán
+    'day_of_week': 2,
+    'month': 8,
+    'dimension': 300,
+    'subscriberCount': 1000000,
+    'viewChannelCount': 5000000,
+    'title_count': 5,
+    'tags_count': 10
+}
 
-def preprocess_input_data(input_data):
-    # Thực hiện các bước tiền xử lý tương tự như khi huấn luyện mô hình
-    # Bạn cần xác định các bước tiền xử lý cần thiết cho dữ liệu đầu vào của mình
-    # ở đây để có thể chạy mô hình một cách đúng đắn.
+input_object = pd.DataFrame([input_data])
 
-    # Ví dụ: Chuyển đổi cột ngày tháng giờ
-    input_data['publishedAt'] = pd.to_datetime(input_data['publishedAt'])
-    input_data['hour'] = input_data['publishedAt'].dt.hour
-    input_data['day_of_week'] = input_data['publishedAt'].dt.dayofweek
-    input_data['month'] = input_data['publishedAt'].dt.month
-
-    # ... (Các bước tiền xử lý dữ liệu khác)
-    input_data['title_count'] = input_data['title'].apply(lambda x: len(x.split()))
-    input_data['tags_count'] = input_data['tags'].apply(lambda x: len(x.split(',')))
-
-    # Chọn các đặc trưng cần thiết
-    selected_features = ['hour', 'day_of_week', 'month', 'dimension', 'subscriberCount', 'title_count', 'tags_count']
-    input_data_processed = input_data[selected_features]
-
-    return input_data_processed
-
-def main():
-    # Đọc dữ liệu đầu vào từ người dùng
-    date_published = input("Nhập ngày tháng giờ (yyyy-mm-dd HH:MM:SS): ")
-    title = input("Nhập tiêu đề: ")
-    tags = input("Nhập tags (phân cách bởi dấu phẩy): ")
-
-    # Tạo DataFrame từ dữ liệu đầu vào
-    input_data = pd.DataFrame({
-        'publishedAt': [date_published],
-        'title': [title],
-        'tags': [tags],
-        'dimension': 60,
-        'subscriberCount': 10000000
-        # Thêm các cột khác cần thiết tương tự như trong quá trình huấn luyện
-    })
-
-    # Tiền xử lý dữ liệu đầu vào
-    input_data_processed = preprocess_input_data(input_data)
-
-    # Load mô hình đã được huấn luyện
-    model = joblib.load('DataTrained/Logistic Regression_model.pkl')  # Đặt tên file mô hình đã được lưu
-
-    # Dự đoán kết quả
-    prediction = model.predict(input_data_processed)
-
-    # In kết quả dự đoán
-    print(f"Dự đoán kết quả: {prediction}")
-
-if __name__ == "__main__":
-    main()
+# Dự đoán giá trị 'viewTB' cho đối tượng nhập vào
+predicted_value_train = loaded_model_train.predict(input_object)[0]
+predicted_value_view = loaded_model_view.predict(input_object)[0]
+# Hiển thị thông tin về đối tượng và giá trị dự đoán
+print("Input Object:")
+print(input_object)
+print("\nPredicted 'viewTB'(Lượng view dự đoán) Value:", predicted_value_view)
+print("\nPredicted 'Train' (1: Yes 0: No)Value:", predicted_value_train)

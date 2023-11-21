@@ -23,7 +23,8 @@ data['month'] = data['publishedAt'].dt.month
 
 # Thêm cột viewTB với nhiều điều kiện
 data['viewTB'] = np.where(data['viewCount'] < 2000000, np.ceil(data['viewCount'] / 200000) * 200000,
-                          np.where(data['viewCount'] <= 20000000, np.ceil(data['viewCount'] / 10000000) * 10000000,np.ceil(data['viewCount'] / 100000000) * 100000000))
+                          np.where(data['viewCount'] <= 20000000, np.ceil(data['viewCount'] / 10000000) * 10000000,
+                                   np.where(data['viewCount'] <= 300000000, np.ceil(data['viewCount'] / 100000000) * 100000000, 300000000)))
 
 # Bước 2: Chuyển đổi dữ liệu chuỗi
 text_features = ['title', 'tags']

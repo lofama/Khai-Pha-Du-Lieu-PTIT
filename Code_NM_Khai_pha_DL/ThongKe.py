@@ -5,6 +5,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 import importlib
+from PyQt5.QtGui import QFont
+
+# Specify a font that supports Hangul characters
+font = QFont("Arial Unicode MS", 12)
+# Set the font for the application
 os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = 'D:/KPDL/envs/env_name/Library/plugins/'
 
 
@@ -142,5 +147,7 @@ class YouTubeStatsApp(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    app.setFont(font)
     ex = YouTubeStatsApp()
     sys.exit(app.exec_())
+   
