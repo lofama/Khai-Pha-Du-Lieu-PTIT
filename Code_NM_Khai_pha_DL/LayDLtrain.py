@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 # Đọc dữ liệu từ các file CSV
 video_data = pd.read_csv('DataVideo.csv')
 channel_data = pd.read_csv('ChannelData.csv')
@@ -47,12 +47,18 @@ final_data.loc[:, 'viewChannelCount'] = final_data['viewChannelCount'].fillna(0)
 trending_ids = youtube_data['id'].unique()
 final_data = final_data.copy()  # Create a copy of the DataFrame
 # Thêm cột "common_words_count" vào DataFrame gốc
-final_data.loc[:,'tags_count'] = data1['common_words_count']
-final_data.loc[:,'title_count'] = data1['common_words_count_title']
+final_data.loc[:,'tags_count'] = data1['common_words_count'].fillna(0)
+final_data.loc[:,'title_count'] = data1['common_words_count_title'].fillna(0)
 # Thêm cột "trend" vào final_data
-final_data.loc[:, 'trend'] = ((final_data['viewCount'] > avg_view_count) | 
-                               (final_data['likeCount'] > avg_like_count) & 
-                               (final_data['commentCount'] > avg_comment_count) | 
-                               final_data['id'].astype(str).isin(trending_ids)).astype(int)
+final_data['trend'] = np.where(
+    (
+        (final_data['viewCount'] > avg_view_count) | 
+        (final_data['likeCount'] > avg_like_count) & 
+        (final_data['commentCount'] > avg_comment_count) | 
+        final_data['id'].astype(str).isin(trending_ids)
+    ),
+    1,  # Gán 1 nếu điều kiện đúng
+    0   # Gán 0 nếu điều kiện sai
+)
 # Lưu dữ liệu vào file CSV mới
 final_data.to_csv('TrainingDataWithTrend.csv', index=False)

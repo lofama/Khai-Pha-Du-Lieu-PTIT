@@ -51,8 +51,8 @@ preprocessor = ColumnTransformer(
 # Bước 6: Chọn các đặc trưng cần thiết
 selected_features = ['hour', 'day_of_week', 'month', 'dimension', 'subscriberCount','viewChannelCount', 'title_count', 'tags_count']
 X = data[selected_features]
-y = data['viewTB']
-# y=data['trend']
+# y = data['viewTB']
+y=data['trend']
 # Bước 7: Phân chia dữ liệu
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -83,7 +83,8 @@ for model_name, model in models.items():
         'classification_report': classification_report_result
     }
     # Kiểm tra và tạo thư mục nếu chưa tồn tại
-    output_directory = f'DataTrainedForView'
+    # output_directory = f'DataTrainedForView'
+    output_directory = f'DataTrainedForTrend'
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
         
