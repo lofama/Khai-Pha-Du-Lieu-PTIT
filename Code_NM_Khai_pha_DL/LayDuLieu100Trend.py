@@ -6,13 +6,13 @@ from datetime import datetime, timedelta
 # Thay thế 'YOUR_API_KEY' bằng khóa API của bạn
 API_KEY = 'AIzaSyAIauebrmC4h8cXkY8a2UHsKHmhufHeFOs'
 # Số lượng video bạn muốn lấy
-desired_video_count = 1
+desired_video_count = 150
 
 # Thời điểm hiện tại
 current_time = datetime.utcnow()
 
 # Lấy thời điểm 7 ngày trước
-start_time = current_time - timedelta(days=30)
+start_time = current_time - timedelta(days=7)
 print(start_time)
 # Định dạng thời gian theo ISO 8601
 published_after = start_time.isoformat() + "Z"  # Z indicates UTC time
